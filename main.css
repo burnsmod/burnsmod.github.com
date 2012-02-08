@@ -1,0 +1,18 @@
+
+
+#header {
+background-image: url('header-bg.png'); 
+background-repeat: repeat-x; 
+height:200px;
+color:#ffffff;
+};
+
+#options {
+   color:#ffffff;
+   font: bold 15px/100% Verdana, Tahoma, sans-serif;
+   text-align:center;
+};
+
+td {
+  text-align: center;
+};
