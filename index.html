@@ -1,66 +1,115 @@
-<html>
-<head>
-<title>Burns Modular - Hardware and Software synths since 2011</title>
-<style type="text/css">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Burns Modular: Synthesizer Hardware and Music Software for Android and WebOS</title>
+    <meta name="description" content="Burns Modular is a developer of hardware synthesizers and audio applications for Android and WebOS including DJPad which is the best Android DJ application">
+    <meta name="author" content="Burns Modular">
 
-#header {
-background-image: url('header-bg.png'); 
-background-repeat: repeat-x; 
-height:100px;
-color:#ffffff;
-}
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-#options {
-   color:#ffffff;
-   font-size:28px;
-   font-family: Georgia, "Bitstream Charter", serif;
-   text-align:center;
-}
+    <!-- Le styles -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
 
-#showcase {
-   text-align:center;
-   align:center;
-}
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
 
-td {
-  text-align: center;
-}
+  <body>
 
-</style>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Burns Modular</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">Contact</a></li>
+              <li><a href="#contact">Blog</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
 
-</head>
-<body>
-<div id="header">
-<br />
-<table width="95%" id="options">
-<tr><td>Hardware</td><td>Software</td><td>Contact</td><td>Garage</td></tr>
-</table>
-</div>
+    <div class="container">
 
-<div id="showcase">
-<div align="center">
-<table valign="top" align="left" width="85%"/>
-<tr>
-<td><img src="djpad-1.png" /><br /><b>DJPad</b></td>
-<td align="left">
-<h2>News</h2>
-<p align="left">
-<i>Dec 20th, 2011 - </i>We're pleased to announced the release of <b>DJPad</b> for the HP Touchpad.  <br /><br />DJPad is a full software DJing solution, featuring:
-<ul align="left">
-<li>2 MP3 players with quick seek, scratch, and cue position</li>
-<li>Auto-normalizing mixer with 3-band cut EQ</li>
-<li>Simple playlist support (files in subdirectories) and easy import (just copy over USB)</li>
-</ul>
-<p align="left">We have a ton of features planned for incremental upgrades coming soon:
-<ul align="left">
-<li>Headphone-split or 'external mixer' output modes</li>
-<li>Proper playlist support with ID3 tag support</li>
-<li>FX (and a better EQ!)</li>
-<li>Upgraded OpenGL-based GUI</li>
-<li>Vertical aligned waveform display with 'record scratch' discs to ease beatmatching</li>
-</ul>
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+	    <table>
+		<tr><td><img src="assets/img/djpad-1.png" /></td>
+		<td>
+        <h1>Announcing DJPad</h1>
+		<p>DJPad is the best DJ app for Android and WebOS</p>
+		<br />
+		<p>For Android: <a href="https://market.android.com/details?id=com.burnsmod.djpad&feature=search_result">Pro</a> | <a href="https://market.android.com/details?id=com.burnsmod.djpaddemo&feature=search_result">Lite</a></p>
+		<br />
+		<p>For WebOS: <a href="https://developer.palm.com/appredirect/?packageid=com.tugbits.djpad">Pro</a> | <a href="https://developer.palm.com/appredirect/?packageid=com.tugbits.djpaddemo&applicationid=1000507">Lite</a></p>
+		<br />
+		<p><a class="btn btn-primary btn-large" href="software/index.html">Details &raquo;</a></p>
+		</td></tr></table>
+      </div>
 
-</td></tr>
-</table>
-</div>
-</div>
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span4">
+          <h2>Software</h2>
+           <p>Check out our music software for Android and WebOS phones and tablets.</p>
+          <p><a class="btn" href="software/index.html">View details &raquo;</a></p>
+        </div>
+        <div class="span4">
+          <h2>Hardware</h2>
+           <p>Coming soon: Unique Eurorack and standalone synthesizer modular designs.</p>
+       </div>
+        <div class="span4">
+          <h2>Blog</h2>
+          <p>Read about my hacking adventures, repairing/building synths, and building a fabrication lab in my garage.</p>
+          <p><a class="btn" href="blog/index.html">View details &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; Burns Modular 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap-transition.js"></script>
+    <script src="assets/js/bootstrap-alert.js"></script>
+    <script src="assets/js/bootstrap-modal.js"></script>
+    <script src="assets/js/bootstrap-dropdown.js"></script>
+    <script src="assets/js/bootstrap-scrollspy.js"></script>
+    <script src="assets/js/bootstrap-tab.js"></script>
+    <script src="assets/js/bootstrap-tooltip.js"></script>
+    <script src="assets/js/bootstrap-popover.js"></script>
+    <script src="assets/js/bootstrap-button.js"></script>
+    <script src="assets/js/bootstrap-collapse.js"></script>
+    <script src="assets/js/bootstrap-carousel.js"></script>
+    <script src="assets/js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>
