@@ -5,8 +5,6 @@ tags : [hacking, software-development]
 ---
 {% include JB/setup %}
 
-# Forwarding unread GMail to Cellphone via SMS
-
 ## What is it?
 MobiGM is a small utility that periodically checks your GMail inbox, and sends updates to a mobile phone via email. Certainly, you could just set up a couple filters with GMail's powerful filtering system to forward messages to your phone and be happy with that, but MobiGM allows you to dynamically react to what appears in your mailbox (which we will exploit in future projects).	
 

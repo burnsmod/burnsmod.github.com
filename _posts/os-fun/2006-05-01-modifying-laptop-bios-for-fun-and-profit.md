@@ -5,8 +5,6 @@ tags : [hacking, reverse-engineering]
 ---
 {% include JB/setup %}
 
-# Modifying a Laptop BIOS for Fun and Profit
-
 In today's hack, we will analyze and modify a laptop BIOS image for fun and profit. Note that this is stupidly dangerous: a bad flash and we'll end up with a doorstop, or we'll have to remove the chip and reflash it manually. But in either case, the outcome can be fun.
 
 ## Technologies used/Requirements
