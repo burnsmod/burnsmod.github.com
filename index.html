@@ -39,6 +39,12 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
+   // ADD THIS AT THE BOTTOM OF YOUR GOOGLE ANALYTICS TRACKING CODE //
+   window.onerror = function(message, file, line) { 
+      var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message; 
+      _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+   }
+
 </script>
 
   </head>
