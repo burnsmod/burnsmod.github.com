@@ -45,6 +45,10 @@
       _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
    }
 
+   LogOut(loc, detail)
+   {
+      _gaq.push(['_trackEvent', "Outgoing", loc, detail]);
+   }
 </script>
 
   </head>
@@ -87,18 +91,18 @@
 		<br />
                 <table width="80%" align=center>
                 <tr><td colspan=3><p>Buy Now:</p></td></tr>
-                <tr><td><a href="https://market.android.com/details?id=com.burnsmod.djpad">
+                <tr><td><a href="https://market.android.com/details?id=com.burnsmod.djpad" onClick="LogOut('android-djpad', 'logo');">
                           <img border=0 width=100 height=100 src="assets/img/android-128.png" alt="DJPad is the best DJ app for Android phones and tablets" />
                         </a></td>
-                    <td><a href="http://appworld.blackberry.com/webstore/content/92452/?lang=en">
+                    <td><a href="http://appworld.blackberry.com/webstore/content/92452/?lang=en" onClick="LogOut('playbook-djpad', 'logo');">
                         <img border=0 width=100 height=100 src="assets/img/blackberry-128.png" alt="DJPad is the best DJ app for BlackBerry Playbook" />
                         </a></td>
-                    <td><a href="https://developer.palm.com/appredirect/?packageid=com.tugbits.djpad">
+                    <td><a href="https://developer.palm.com/appredirect/?packageid=com.tugbits.djpad" onClick="LogOut('webos-djpad', 'logo');">
                     <img width=100 height=100 src="assets/img/webos-128.png" alt="DJPad is the best DJ app For HP TouchPad" /></a></td></tr>
                 <tr>
-		<td align="center"><a href="https://market.android.com/details?id=com.burnsmod.djpad">Android</a> | <a href="https://market.android.com/details?id=com.burnsmod.djpaddemo&feature=search_result">Demo</a></td>
-                <td align="center"><a href="http://appworld.blackberry.com/webstore/content/92452/?lang=en">PlayBook</a></td>
-		<td align="center"><a href="https://developer.palm.com/appredirect/?packageid=com.tugbits.djpad">TouchPad</a> | <a href="https://developer.palm.com/appredirect/?packageid=com.tugbits.djpaddemo&applicationid=1000507">Demo</a></td>
+		<td align="center"><a href="https://market.android.com/details?id=com.burnsmod.djpad" onClick="LogOut('android-djpad', 'paid');">Android</a> | <a href="https://market.android.com/details?id=com.burnsmod.djpaddemo" onClick="LogOut('android-djpad', 'demo');">Demo</a></td>
+                <td align="center"><a href="http://appworld.blackberry.com/webstore/content/92452/?lang=en" onClick="LogOut('playbook-djpad', 'paid');">PlayBook</a></td>
+		<td align="center"><a href="https://developer.palm.com/appredirect/?packageid=com.tugbits.djpad" onClick="LogOut('webos-djpad', 'paid');">TouchPad</a> | <a href="https://developer.palm.com/appredirect/?packageid=com.tugbits.djpaddemo&applicationid=1000507" onClick="LogOut('webos-djpad', 'demo');">Demo</a></td>
                 </tr></table>
 		<br />
 		</td></tr></table>
