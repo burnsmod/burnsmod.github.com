@@ -5,8 +5,6 @@ tagline:
 ---
 {% include JB/setup %}
 
-## About Burns Modular
-
 I've been separately writing music, and code, for almost the last 20 years.
 
 Late 2011 I realized my dream of combining my two hobbies into one and Burns Modular is the result.  Beginning with DJPad for WebOS, then Android, and most recently the BlackBerry PlayBook, DJPad is my first commercial product.
