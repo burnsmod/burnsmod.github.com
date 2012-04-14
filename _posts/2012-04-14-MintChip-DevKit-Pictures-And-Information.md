@@ -86,3 +86,5 @@ Googling for SMART_IO.CRD finds some interesting discussion as people start poki
 
 Like this post?  Maybe you'll like [DJPad, my mobile dj app for Android, PlayBook, and HP TouchPad](http://www.burnsmod.com).  Or consider [following me on twitter](http://www.twitter.com/BurnsMod)
 
+
+
