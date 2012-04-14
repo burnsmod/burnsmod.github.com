@@ -5,7 +5,6 @@ tags : [mintchip]
 ---
 {% include JB/setup %}
 
-
 I received the development kit for the Royal Canadian Mint MintChip challenge today and thought some pics and details would be of interest to the community at large.
 
 Note: I never signed an NDA so as far as I know this is completely public knowledge.  If anyone has an objection to this post let me know.
@@ -85,4 +84,5 @@ On the disk is a single file SMART_IO.CRD that looks like an interface to the "s
 
 Googling for SMART_IO.CRD finds some interesting discussion as people start poking around the system.
 
-That's it for now!
+Like this post?  Maybe you'll like [DJPad, my mobile dj app for Android, PlayBook, and HP TouchPad](http://www.burnsmod.com).  Or consider [following me on twitter](http://www.twitter.com/BurnsMod)
+
