@@ -29,9 +29,10 @@ Here's a shot of the components that come with the devkit:
 
 ![MintChip devkit components](/blog/images/mintchip/mintchip-adapters.jpg)
 
-Mintchip currently has hardware APIs for Android, and Windows.  I'm on a Mac laptop for now.
 
 ## MintChip Details
+
+Mintchip currently has hardware APIs for Android, and Windows.  I'm on a Mac laptop for now so I am not running the API software.
 
 When plugged into my Mac running Snow Leopard, the MintChip (via the USB->MicroSD adapter) registers as a mass storage device with a 2GB FAT16 partition:
 
