@@ -1,3 +1,10 @@
+---
+layout: post
+category : mintchip
+tags : [mintchip]
+---
+{% include JB/setup %}
+
 
 I received the development kit for the Royal Canadian Mint MintChip challenge today and thought some pics and details would be of interest to the community at large.
 
