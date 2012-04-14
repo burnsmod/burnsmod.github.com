@@ -1,7 +1,7 @@
 ---
 layout: post
 category : development
-tags : [mintchip]
+tags : [development, mintchip]
 ---
 {% include JB/setup %}
 
