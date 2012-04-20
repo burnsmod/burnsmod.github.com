@@ -8,7 +8,12 @@
     <h4>Published</h4>
     <div class="date"><span>{{ page.date | date_to_long_string }}</span></div>
 
+    <br />
+    <img border=0 src="/assets/img/twitter.png" alt="Follow @BurnsMod on Twitter" />
+    <img border=0 src="/assets/img/facebook.png" alt="Become a fan of Burns Modular" />
+
        {% unless page.tags == empty %}
+       <br />
        <h4>Tags</h4>
        <ul class="tag_box">
           {% assign tags_list = page.tags %}
@@ -16,6 +21,9 @@
        </ul>
        {% endunless %}
     
+       <br />
+       <h4>Navigate</h4>
+       
     </div>
     <div class="span10">
     {{ content }}
