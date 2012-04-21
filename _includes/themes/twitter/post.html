@@ -7,16 +7,23 @@
     <div class="span2">
     <h4>Published</h4>
     <div class="date"><span>{{ page.date | date_to_long_string }}</span></div>
+    <br />
+    <h4>Navigation</h4>
+    <ul>
+        {% assign pages_list = site.pages %}
+        {% assign group = 'navigation' %}
+        {% include JB/pages_list %}
+    </ul>
 
     <br />
     <a href="http://www.twitter.com/BurnsMod">
-      <img border=0 src="/assets/img/twitter.png" alt="Follow @BurnsMod on Twitter" />
+      <img border=0 width=100 src="/assets/img/twitter.png" alt="Follow @BurnsMod on Twitter" />
     </a>
     <a href="http://www.facebook.com/BurnsMod">  
-      <img border=0 src="/assets/img/facebook.png" alt="Become a fan of Burns Modular" />
+      <img border=0 width=100 src="/assets/img/facebook.png" alt="Become a fan of Burns Modular" />
     </a>
     <a href="http://www.burnsmod.com/blog/atom.xml">
-      <img border=0 src="/assets/img/rss.png" alt="Subscribe to Burns Modular blog RSS" />
+      <img border=0 width=100 src="/assets/img/rss.png" alt="Subscribe to Burns Modular blog RSS" />
     </a>
 
        {% unless page.tags == empty %}
