@@ -5,7 +5,7 @@
           <a class="brand" href="{{ HOME_PATH }}">{{ site.title }}</a>
           <ul class="nav">
               <li><a href="{{ HOME_PATH}}">Home</a></li>
-              <li><a href="about.html">About</a></li>
+              <li><a href="/about.html">About</a></li>
               <li class="active"><a href="/blog/">Blog</a></li>
           </ul>
         </div>
