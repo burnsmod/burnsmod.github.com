@@ -2,6 +2,8 @@
 layout: post
 category : development
 tags : [development, mintchip]
+description : I received the development kit for the Royal Canadian Mint MintChip challenge today and thought some pics and details would be of interest to the community at large.
+
 ---
 {% include JB/setup %}
 
