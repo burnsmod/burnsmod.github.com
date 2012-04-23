@@ -46,7 +46,7 @@ Note that the payment is slightly under-reported as each region's payout only oc
 
 With the available NDK and [Pelya's SDL Android Port](https://github.com/pelya/commandergenius) and a bunch of hackery I managed to port DJPad to Android.  It was released Feb 10th 2012.  I also released a free version of DJPad with Admob support for Android as an extra revenue stream.
 
-The cool thing about the Android and HP TouchPad versions of DJPad is that they're the same codebase.  I call this the "combo effect": right once, sell multiple times.  Android has the further "combo effect" with multiple branded and walled storefronts such as the Amazon and Nook App stores.  DJPad is now in the Amazon App Store.  Unfortunately the Nook App store requires me to have a US Tax ID and I have not yet completed the necessary paperwork.  I had to fill out one form for HP/Palm, and for Amazon and Google I didn't have to fill out anything, so it's a shame that it's so hard for a non-US developer to release on the Nook.
+The cool thing about the Android and HP TouchPad versions of DJPad is that they're the same codebase.  I call this the "combo effect": write once, sell multiple times.  Android has the further "combo effect" with multiple branded and walled storefronts such as the Amazon and Nook App stores.  DJPad is now in the Amazon App Store.  Unfortunately the Nook App store requires me to have a US Tax ID and I have not yet completed the necessary paperwork.  I had to fill out one form for HP/Palm, and for Amazon and Google I didn't have to fill out anything, so it's a shame that it's so hard for a non-US developer to release on the Nook.
 
 Anyways, here's the Google sales, Amazon sales, and Admob revenue for Feb 2012:
 
@@ -55,7 +55,7 @@ Anyways, here's the Google sales, Amazon sales, and Admob revenue for Feb 2012:
 <tr><td>Google</td><td>53</td><td>$82.03</td></tr>
 <tr><td>Admob</td><td>-</td><td>$43</td></tr>
 <tr><td>Amazon</td><td>73</td><td>$106.80</td></tr>
-<tr><td>Total</td><td>126</td><td>231.83</td></tr>
+<tr><td>Total</td><td>126</td><td>$231.83</td></tr>
 </table>
 
 
