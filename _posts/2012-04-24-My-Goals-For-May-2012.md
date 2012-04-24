@@ -11,7 +11,7 @@ As a self-motivated, self-directed developer and business person I cannot unders
 
 ##Why
 
-Burns Modular is my part-time side business.  I've released an app ([DJPad, a DJ app for Android and Playbook](http://www.burnsmod.com)) and made hundreds of sales, but besides coming feature improvements and upgrades, I have no further responsibilities to meet.  My growth is entirely self-driven and as such I need to choose a horizon I want to travel to and point my efforts into making it to that destination.
+Burns Modular is my part-time side business.  I've released an app ([DJPad, a DJ app for Android and Playbook](http://www.burnsmod.com)) and made [hundreds of sales](http://burnsmod.com/business/2012/04/23/My-First-2-Months:-App-Sales-Report-For-Android-And-WebOS/), but besides coming feature improvements and upgrades, I have no further responsibilities to meet.  My growth is entirely self-driven and as such I need to choose a horizon I want to travel to and point my efforts into making it to that destination.
 
 By setting long- and short-term goals I gain:
 - a guide to direct my efforts to grow my business as opposed to a less growth-oriented approach.
