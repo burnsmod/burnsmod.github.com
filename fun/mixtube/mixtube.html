@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Burns Modular: Mixtube, an DJ online with youtube playlists and a crossfader.</title>
+    <meta name="description" content="MixTube: DJ a party with by crossfading between YouTube videos.  Totally free, playlist support.">
+    <meta name="author" content="Burns Modular">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+    <!-- Le styles -->
+    <link href="../../assets/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-bottom: 20px;
+      }
+    </style>
+    <link href="../../assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/assets/img/favicon-64.png">
+    <link rel="apple-touch-icon" href="/assets/img/favicon-64.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30757461-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+   // ADD THIS AT THE BOTTOM OF YOUR GOOGLE ANALYTICS TRACKING CODE //
+   window.onerror = function(message, file, line) {
+      var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+      _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+   }
+</script>
+
+</head>
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="http://burnsmod.com">Burns Modular</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="http://burnsmod.com">Like DJing?  Click to get DJPad for your Android / Playbook / WebOS Device Today</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>    
+<script type="text/javascript" src="slider.js"></script>
+
+<div id="left" class="span6">
+  <p align="center">
+<div id="leftplayerwrapper" style="width: 320px; margin: 0px auto;">
+  <div id="leftplayerdiv" >
+    You need Flash player 8+ and JavaScript enabled to view this video.
+  </div>
+  </p>
+</div>
+
+</div>
+<div id="right" class="span6">
+  <p align="center">
+  <div id="rightplayerwrapper" style="width: 320px; margin: 0px auto;">
+
+  <div id="rightplayerdiv">
+    You need Flash player 8+ and JavaScript enabled to view this video.
+  </div>
+  </div>
+  </p>
+</div>
+
+  <script type="text/javascript">
+
+function onYouTubePlayerReady(playerId)
+{
+   if (playerId == "leftplayer")
+   {
+      ready++;
+      leftPlayer = document.getElementById("leftplayer");
+   }
+   if (playerId == "rightplayer")
+   {
+      ready++;
+      rightPlayer = document.getElementById("rightplayer");
+   }
+}
+
+    ready = 0;
+
+    var params = { allowScriptAccess: "always" };
+    var leftatts = { id: "leftplayer" };
+    var rightatts = { id: "rightplayer" };
+
+    swfobject.embedSWF("http://www.youtube.com/v/hrsaB0Uune8&enablejsapi=1&playerapiid=leftplayer", 
+                       "leftplayerdiv", "320", "240", "8", null, null, params, leftatts);
+
+    swfobject.embedSWF("http://www.youtube.com/v/NdmwPadDlgQ&enablejsapi=1&playerapiid=rightplayer",
+                       "rightplayerdiv", "320", "240", "8", null, null, params, rightatts);
+
+function loadLeft(id)
+{
+   leftPlayer.cueVideoById(id,0);
+   leftPlayer.seekTo(0,TRUE);
+   leftPlayer.playVideo();
+   leftPlayer.pauseVideo();
+}
+
+function loadRight(id)
+{
+   rightPlayer.cueVideoById(id,0);
+   rightPlayer.seekTo(0,TRUE);
+   rightPlayer.playVideo();
+   rightPlayer.pauseVideo();
+}
+
+function updateVol(x)
+{
+   if (ready == 2)
+   {
+      rightPlayer.setVolume(x);
+      leftPlayer.setVolume(100-x);
+   }
+}
+
+  </script>
+
+<div class="span12">
+
+<div style="width:250px; margin: 0px auto;">
+
+<FORM name="theForm">
+<input name="sliderValue" id="sliderValue" type="Text" style="visibility:hidden;" onchange="updateVol(this.value);" size="3">
+
+<script language="JavaScript">
+        var A_TPL = {
+                'b_vertical' : false,
+                'b_watch': true,
+                'n_controlWidth': 250,
+                'n_controlHeight': 50,
+                'n_sliderWidth': 15,
+                'n_sliderHeight': 50,
+                'n_pathLeft' : 1,
+                'n_pathTop' : 1,
+                'n_pathLength' : 220,
+                's_imgControl': 'img/slider-bg.jpg',
+                's_imgSlider': 'img/slider-front.jpg',
+                'n_zIndex': 1
+        }
+        var A_INIT = {
+                's_form' : 0,
+                's_name': 'sliderValue',
+                'n_minValue' : 0,
+                'n_maxValue' : 100,
+                'n_value' : 50,
+                'n_step' : 1
+        }
+
+        new slider(A_INIT, A_TPL);
+</script>
+</FORM>
+</div>
+</div>
+
+<script language="javascript">
+
+function Playlist(src, name)
+{
+   this.src = src;
+   this.name = name;
+   this.loaded = 0;
+   this.Load = LoadPlaylist;
+   this.data = "";
+   this.selected = 0;
+
+   return true;
+}
+
+function LoadPlaylist()
+{
+var playListURL = this.src+'&alt=json&callback=?';
+var videoURL= 'http://www.youtube.com/watch?v=';
+$.getJSON(playListURL, function(playlist){
+    return function(data) {
+      // create a closure around the json handler so it knows what this is
+
+      var list_data = '<table class="table table-bordered table-striped" valign="center" align="center">';
+
+      $.each(data.feed.entry, function(i, item) {
+        var feedTitle = item.title.$t;
+        var feedURL = item.link[1].href;
+        var fragments = feedURL.split("/");
+        var videoID = fragments[fragments.length - 2];
+        var url = videoURL + videoID;
+        var thumb = "http://img.youtube.com/vi/"+ videoID +"/default.jpg";
+//        list_data += '<div class="btn-group">';
+        list_data += "<tr>";
+        list_data += "<td><button class='btn' onClick='loadLeft(\"" + videoID + "\");'>Load Left</button></td>";
+        list_data += '<td><img width=50 height=50 src="' + thumb + '"></td><td>' + feedTitle + '</td>';
+        list_data += "<td><button class='btn' onClick='loadRight(\"" + videoID + "\");'>Load Right</button></td>";
+        list_data += "</tr>";
+//        list_data += '</div>';
+      });
+
+      playlist.data = list_data;
+      RenderPlaylistTags();
+   };
+   }(this));
+
+}
+
+var playlists = new Array();
+
+function LoadUsersPlaylists()
+{
+   var user = $('#youtube-user').val();
+
+   var listURL = 'https://gdata.youtube.com/feeds/api/users/' + user + '/playlists?v=2&alt=json&callback=?';
+
+   $.getJSON(listURL, function(data) {
+      playlists.length = 0;
+
+      $.each(data.feed.entry, function(i, item) {
+         playlists.push(new Playlist(item.content.src, item.title.$t));
+         playlists[0].selected = 1;
+      });
+
+      LoadPlaylists();
+   });
+
+}
+
+function LoadPlaylists()
+{
+   var x;
+   for (x in playlists)
+   {
+      playlists[x].Load();
+   }
+   RenderPlaylistTags();
+}
+
+function RenderPlaylistTags()
+{
+   var x;
+
+   var navtree = $("#playlistNavTabs").children();
+   navtree.each(function(n,item){
+     $(item).remove();
+   });
+ 
+   $("#playlistNavContent").empty();
+
+   for (x in playlists)
+   {
+      var str = '<li ';
+      if (playlists[x].selected != 0)
+      {
+         str += 'class="active"'
+      }
+      str += '><a href="#" onClick="SetPlaylist(' + x + ');">' + playlists[x].name + '</a></li>';
+
+      $("#playlistNavTabs").append(str);
+
+      str = '<div class="tab-pane ';
+      if (playlists[x].selected != 0)
+      {
+         str += "active";
+      }
+      str += '" id="' + playlists[x].id + '">' + playlists[x].data + "</div>";
+      $("#playlistNavContent").append(str);
+   }
+}
+
+function SetPlaylist(idx)
+{
+   for (x in playlists)
+   {
+      playlists[x].selected = 0;
+   }
+   playlists[idx].selected = 1;
+   RenderPlaylistTags();
+}
+
+
+$(document).ready(function(){
+LoadUsersPlaylists();
+alert("Welcome!  To change playlists enter a different youtube userid at the bottom of this page and click 'Load'.  Contact support@burnsmod.com for questions!");
+});
+
+</script>
+
+<div class="span12">
+
+<div class="tabbable">
+  <ul class="nav nav-tabs" id="playlistNavTabs">
+  </ul>
+  <div class="tab-content" id="playlistNavContent">
+  </div>
+</div>
+
+<h2>Change User</h2>
+<label for="youtube-user">Enter Youtube User ID (ie bentlovemusic):</label>
+<input type="text" name="youtube-user" id="youtube-user" value="bentlovemusic">
+<input type="button" onClick="LoadUsersPlaylists();" value="Load Playlists" />
+
+</div>
+
+
+</body>
+</html>
