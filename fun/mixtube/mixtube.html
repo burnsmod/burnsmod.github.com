@@ -305,10 +305,33 @@ function SetPlaylist(idx)
    RenderPlaylistTags();
 }
 
+function getParameterByName(name)
+{
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  var regexS = "[\\?&]" + name + "=([^&#]*)";
+  var regex = new RegExp(regexS);
+  var results = regex.exec(window.location.search);
+  if(results == null)
+    return "";
+  else
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 
 $(document).ready(function(){
+
+if (getParameterByName("user"))
+{
+  $("#youtube-user").val(getParameterByName("user"));
+}
+
 LoadUsersPlaylists();
-alert("Welcome!  To change playlists enter a different youtube userid at the bottom of this page and click 'Load'.  Contact support@burnsmod.com for questions!");
+
+if (!$.cookie("visited"))
+{
+   alert("Welcome!  To change playlists enter a different youtube userid at the bottom of this page and click 'Load'.  Contact support@burnsmod.com for questions!");
+}
+$.cookie("visited","true");
+
 });
 
 </script>
