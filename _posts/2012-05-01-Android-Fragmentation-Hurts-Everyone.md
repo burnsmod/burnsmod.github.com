@@ -29,7 +29,7 @@ And this is far from the only bug.  From performance issues (some devices can't 
 
 But this is my fault for letting these incompatible devices install my app, right?  When I, as an Android application developer, publish my application I can restrict installation based on... screen size: extrasmall, small, normal, large, extralarge.
 
-This is the true problem with Android fragmentation.  Apps don't work.  Users rightfully get mad.  Developers get mad.  I waste a ton of time fixing Android-specific bugs.
+__Hardware Fragmentation is the true problem with Android.__  Apps don't work.  Users rightfully get mad.  Developers get mad.  I waste a ton of time fixing Android-specific bugs.
 
 As a victim of their own success I honestly think Google did not plan for this or they would have built more device filtering into the application manifest.
 
