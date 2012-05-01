@@ -7,7 +7,7 @@ description : How hardware fragmentation on Android devices hurts users and deve
 ---
 {% include JB/setup %}
 
-This past Friday I released an update to the [http://www.burnsmod.com](Android version of DJPad) fixing a critical show-stopper bug.  This bug would cause DJPad to lock up every time a user selected to load a song and chose any partition other than "/mnt/sdcard/".  It probably affected a significant portion of the 150+ users who download and immediately delete DJPad on a daily basis.  So why didn't I fix it sooner?
+This past Friday I released an update to the [Android version of my DJ app, DJPad](http://www.burnsmod.com) fixing a critical show-stopper bug.  This bug would cause DJPad to lock up every time a user selected to load a song and chose any partition other than "/mnt/sdcard/".  It probably affected a significant portion of the 150+ users who download and immediately delete DJPad on a daily basis.  So why didn't I fix it sooner?
 
 It doesn't happen on any of my Android devices.
 
@@ -21,7 +21,7 @@ And that really is the summary of the problem with Android today.  While the OS 
 
 With the critical bug I fixed this week, I have over 15 stack traces and reports from users regarding the problem.  Not one of them told me what they were doing when they experienced the problem.  I had a message in spanish that translated to "the bug is a piece of crap" and many messages that said "Bugggg!", but it wasn't until my friend and fellow software developer tried DJPad and showed me the issue in person that I had enough details to fix the issue (which I then resolved and shipped in 3 hours that same Friday evening).
 
-Take a look at this Stack Overflow question: [http://stackoverflow.com/questions/5694933/find-an-external-sd-card-location]
+Take a look at this Stack Overflow question: [http://stackoverflow.com/questions/5694933/find-an-external-sd-card-location](http://stackoverflow.com/questions/5694933/find-an-external-sd-card-location)
 
 There is no API to get a complete list of mount points where a user may have saved their MP3s.  The solution today is to parse /proc/mounts and then hand-write filters to filter out all of the system mounts.  While the /mnt/sdcard point is semi-standard it is incomplete for devices that are USB hosts or have a second SD card or sizeable internal storage...
 
