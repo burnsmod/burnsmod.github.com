@@ -7,6 +7,7 @@
               <li><a href="{{ HOME_PATH}}">Home</a></li>
               <li><a href="/about.html">About</a></li>
               <li class="active"><a href="/blog/">Blog</a></li>
+              <li><a href="http://forum.burnsmod.com">Forums</a></li>
           </ul>
         </div>
       </div>
