@@ -7,7 +7,7 @@ description : How hardware fragmentation on Android devices hurts users and deve
 ---
 {% include JB/setup %}
 
-This past Friday I released an update to the [Android version of my DJ app, DJPad](http://www.burnsmod.com) fixing a critical show-stopper bug.  This bug would cause DJPad to lock up every time a user selected to load a song and chose any partition other than "/mnt/sdcard/".  It probably affected a significant portion of the 150+ users who download and immediately delete DJPad on a daily basis.  So why didn't I fix it sooner?
+This past Friday I released an update to the [Android version of my DJ app, DJPad](http://www.burnsmod.com/software/djpad.html) fixing a critical show-stopper bug.  This bug would cause DJPad to lock up every time a user selected to load a song and chose any partition other than "/mnt/sdcard/".  It probably affected a significant portion of the 150+ users who download and immediately delete DJPad on a daily basis.  So why didn't I fix it sooner?
 
 It doesn't happen on any of my Android devices.
 

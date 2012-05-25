@@ -87,6 +87,6 @@ On the disk is a single file SMART_IO.CRD that looks like an interface to the "s
 
 Googling for SMART_IO.CRD finds some interesting discussion as people start poking around the system.
 
-Like this post?  Maybe you'll like [DJPad, my mobile dj app for Android, PlayBook, and HP TouchPad](http://www.burnsmod.com).  Or consider [following me on twitter](http://www.twitter.com/BurnsMod)
+Like this post?  Maybe you'll like [DJPad, my mobile dj app for Android, PlayBook, and HP TouchPad](http://www.burnsmod.com/software/djpad.html).  Or consider [following me on twitter](http://www.twitter.com/BurnsMod)
 
 .

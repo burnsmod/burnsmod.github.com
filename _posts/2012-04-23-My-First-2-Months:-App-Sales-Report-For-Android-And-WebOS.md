@@ -6,7 +6,7 @@ description : Sales figures for my mobile DJ app DJPad for the first two months 
 ---
 {% include JB/setup %}
 
-I started writing my first app [DJPad, a mobile dj app for Android, PlayBook, and HP TouchPad](http://www.burnsmod.com) for the HP TouchPad in December 2011.  It was released for sale on January 6th 2012 on the WebOS App Store.
+I started writing my first app [DJPad, a mobile dj app for Android, PlayBook, and HP TouchPad](http://www.burnsmod.com/software/djpad.html) for the HP TouchPad in December 2011.  It was released for sale on January 6th 2012 on the WebOS App Store.
 
 ##TouchPad?!?! Why would you develop for the HP TouchPad!?
 
