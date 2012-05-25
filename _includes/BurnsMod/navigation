@@ -2,13 +2,40 @@
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="{{ HOME_PATH }}">{{ site.title }}</a>
-          <ul class="nav">
-              <li><a href="{{ HOME_PATH}}">Home</a></li>
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="{{ HOME_PATH }}"">{{ site.title }}</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="dropdown">
+                 <a class="dropdown-toggle 
+{% if SEL == "software" %}
+active
+{% endif %}
+" data-toggle="dropdown" href="#">Software <b class="caret"></b></a>
+                 <ul class="dropdown-menu">
+                    <li><a href="/software/djpad.html">DJPad</a></li>
+                  <!--  <li><a href="/software/midipad.html">MIDIPad</a></li> -->
+                 </ul>
+              </li>
               <li><a href="/about.html">About</a></li>
-              <li class="active"><a href="/blog/">Blog</a></li>
+              <li class="dropdown">
+                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Fun <b class="caret"></b></a>
+                 <ul class="dropdown-menu">
+                    <li><a href="/fun/mixtube/mixtube.html">Mixtube - Browser DJ</a></li>
+                 </ul>
+              </li>
+              <li><a href="/blog/">Blog</a></li>
+<li><a href="http://www.twitter.com/BurnsMod"><img src="http://www.burnsmod.com/assets/img/twitter.png" width=20 height=20 /></a></li>
+              <li><a href="http://www.facebook.com/BurnsMod"><img src="http://www.burnsmod.com/assets/img/facebook.png" width=20 height=20 /></a></li>
               <li><a href="http://forum.burnsmod.com">Forums</a></li>
-          </ul>
+            </ul>
+          </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
+
+
