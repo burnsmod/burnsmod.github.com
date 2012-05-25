@@ -15,7 +15,7 @@
 {% if SEL == "software" %}
 active
 {% endif %}
-" data-toggle="dropdown" href="#">Software <b class="caret"></b></a>
+" data-toggle="dropdown" href="#">Apps <b class="caret"></b></a>
                  <ul class="dropdown-menu">
                     <li><a href="/software/djpad.html">DJPad</a></li>
                   <!--  <li><a href="/software/midipad.html">MIDIPad</a></li> -->
