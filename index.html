@@ -18,7 +18,7 @@ title: Burns Modular - Audio Apps for Android, PlayBook, and WebOS.
 		<!-- <p><a class="btn btn-primary btn-large" href="software/index.html">Learn More &raquo;</a></p> -->
 		<br />
                 <table width="80%" align=center>
-                <tr><td colspan=3><p><b>Buy Now</b>:</p></td></tr>
+                <tr><td colspan=3><p><span id="actiontext"><b>Buy Now:</b></span></p></td></tr>
                 <tr><td><a href="https://market.android.com/details?id=com.burnsmod.djpad" onClick="LogOut('djpad', 'android-logo');">
                           <img border=0 width=100 height=100 src="assets/img/android-128.png" alt="Buy DJPad DJ App for Android" /></a></td>
                     <td><a href="http://appworld.blackberry.com/webstore/content/92452/?lang=en" onClick="LogOut('djpad', 'playbook-logo');">
@@ -61,5 +61,31 @@ title: Burns Modular - Audio Apps for Android, PlayBook, and WebOS.
 
     </div> <!-- /container -->
 
+<script type="text/javascript">
+$(document).ready(function () {
+   var $_GET = {};
+
+   document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+      function decode(s) {
+          return decodeURIComponent(s.split("+").join(" "));
+      }
+
+      $_GET[decode(arguments[1])] = decode(arguments[2]);
+  }); 
+
+  if ($_GET["t1"] == "1")
+  {
+     $("#actiontext").html("<b>Try Now:</b>");
+  }
+  else if ($_GET["t1"] == "2")
+  {
+     $("#actiontext").html("<b>Buy Now:</b>");
+  }
+  else if ($_GET["t1"] == "3")
+  {
+     $("#actiontext").html("<b>Buy Now ($2.99):</b>");
+  }
+});
+</script>
   </body>
 </html>
