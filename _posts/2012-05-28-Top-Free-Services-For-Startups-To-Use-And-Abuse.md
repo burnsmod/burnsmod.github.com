@@ -13,9 +13,7 @@ Is this still true?  Moreso today than ever before, we have professional-quality
 
 This post attempts to outline the available free web services for programmers and startups to use.
 
-# Web
-
-## Domain
+## Web - Domain
 
 You still need to buy your domain, but you can save money.  Hackers from the 90s may remember a service that would allow you to register a free .com in return for banner advertising space, but that service disappeared in bubble-bust 1.0. 
 
@@ -31,7 +29,7 @@ Amazon offers a [free Linux or Windows EC2 Micro Instance for a year](http://aws
 
 Heroku offers a [single web process for free](http://www.heroku.com/pricing#1-0).  Deploying with this option would make scaling simple as traffic increases as you can dynamically add web processes to your account.
 
-For product or blog websites not needing a live backend, I suggest [Github Pages](http://pages.github.com).  I'm using it for my [entire BurnsMod website](https://www.github.com/burnsmod).  The site is written in a combination of HTML and [Markdown](http://daringfireball.net/projects/markdown/) which is then rendered to a set of static HTML pages.
+For product or blog websites not needing a live backend, I suggest [Github Pages](http://pages.github.com).  I'm using it for my [entire BurnsMod website](https://www.github.com/burnsmod).  The site is written in a combination of HTML and [Markdown](http://daringfireball.net/projects/markdown/) which is then rendered to a set of static HTML pages.  Not having a back-end generally shortens page load time.
 
 ## Email
 
@@ -44,6 +42,8 @@ While there's a number of start-ups in the analytics field like [MixPanel](https
 With the basic install Google Analytics will summarize your incoming traffic, inbound search keywords, and target demographics.  Integrate Google Analytics with [Google Webmaster Tools](https://www.google.com/webmasters/tools/home?hl=en) and you will also get to see a summary of impressions vs clicks for your website in Google search results.
 
 For advanced SEO, [SEOMoz](http://www.seomoz.org) offers a 1-month free trial for their advanced SEO analytics.  I'm doing this now and find it tremendously helpful.  Starting with a full scan of your website, it gives you a laundry list of errors and warnings that would impact your search results.  What's even more impressive is the ability to enter your competitor's websites into a comparison chart comparing their estimated PageRank vs your own.  The membership costs $99/month after the first month, so while I think it'd be worth it for a larger corporation.. until then be sure to cancel your membership before the trial month is up unless you want to spend the $99/month.
+
+For A/B testing, you can use [Google Website Optimizer](http://www.google.com/websiteoptimizer) even if you chose Jekyll to host your website statically.  GWO uses the Google Analytics javascript framework to register pageloads and conversions.  To start a test, add a javascript snippet to your variation pages and a separate snippet for your conversion goal, and your A/B test is implemented.  Very simple.
 
 ## Forum
 
