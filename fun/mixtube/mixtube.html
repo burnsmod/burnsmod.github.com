@@ -20,34 +20,32 @@
         padding-bottom: 20px;
       }
     </style>
-    <link href="../../assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="../..//assets/css/bootstrap-responsive.css" rel="stylesheet">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="/assets/img/favicon-64.png">
     <link rel="apple-touch-icon" href="/assets/img/favicon-64.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
 
-<script type="text/javascript">
+    <!-- Google Analytics code -->
+    <script type="text/javascript">
+       var _gaq = _gaq || [];
+       _gaq.push(['_setAccount', 'UA-30757461-1']);
+       _gaq.push(['_trackPageview']);
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-30757461-1']);
-  _gaq.push(['_trackPageview']);
+       (function() {
+         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+       })();
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-   // ADD THIS AT THE BOTTOM OF YOUR GOOGLE ANALYTICS TRACKING CODE //
-   window.onerror = function(message, file, line) {
-      var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
-      _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
-   }
-</script>
+       // push javascript exceptions as analytics events so we can see client problems
+       window.onerror = function(message, file, line) {
+          var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+          _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+       }
+    </script>
 
 </head>
   <body>
@@ -69,6 +67,7 @@
       </div>
     </div>
 
+<!-- youtube players DOM -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>    
 <script type="text/javascript" src="slider.js"></script>
 
@@ -93,66 +92,15 @@
   </p>
 </div>
 
-  <script type="text/javascript">
+<script type="text/javascript">
 
-function onYouTubePlayerReady(playerId)
-{
-   if (playerId == "leftplayer")
-   {
-      ready++;
-      leftPlayer = document.getElementById("leftplayer");
-   }
-   if (playerId == "rightplayer")
-   {
-      ready++;
-      rightPlayer = document.getElementById("rightplayer");
-   }
-}
 
-    ready = 0;
+</script>
 
-    var params = { allowScriptAccess: "always" };
-    var leftatts = { id: "leftplayer" };
-    var rightatts = { id: "rightplayer" };
-
-    swfobject.embedSWF("http://www.youtube.com/v/hrsaB0Uune8&enablejsapi=1&playerapiid=leftplayer", 
-                       "leftplayerdiv", "320", "240", "8", null, null, params, leftatts);
-
-    swfobject.embedSWF("http://www.youtube.com/v/NdmwPadDlgQ&enablejsapi=1&playerapiid=rightplayer",
-                       "rightplayerdiv", "320", "240", "8", null, null, params, rightatts);
-
-function loadLeft(id)
-{
-   leftPlayer.cueVideoById(id,0);
-   leftPlayer.seekTo(0,TRUE);
-   leftPlayer.playVideo();
-   leftPlayer.pauseVideo();
-}
-
-function loadRight(id)
-{
-   rightPlayer.cueVideoById(id,0);
-   rightPlayer.seekTo(0,TRUE);
-   rightPlayer.playVideo();
-   rightPlayer.pauseVideo();
-}
-
-function updateVol(x)
-{
-   if (ready == 2)
-   {
-      rightPlayer.setVolume(x);
-      leftPlayer.setVolume(100-x);
-   }
-}
-
-  </script>
-
+<!-- Crossfader.  3rd party library. -->
 <div class="span12">
-
 <div style="width:250px; margin: 0px auto;">
-
-<FORM name="theForm">
+<FORM name="sliderForm">
 <input name="sliderValue" id="sliderValue" type="Text" style="visibility:hidden;" onchange="updateVol(this.value);" size="3">
 
 <script language="JavaScript">
@@ -187,8 +135,61 @@ function updateVol(x)
 
 <script language="javascript">
 
+// collected global variables
+
+// counter to ensure players are loaded before reference
+ready = 0;
+
+// loaded Playlists.
+var playlists = new Array();
+
+// Hardcoded callback called by Youtube flash player when it is loaded
+// See: https://developers.google.com/youtube/js_api_reference#IssuingCalls
+function onYouTubePlayerReady(playerId)
+{
+   if (playerId == "leftplayer")
+   {
+      ready++;
+      leftPlayer = document.getElementById("leftplayer");
+   }
+   if (playerId == "rightplayer")
+   {
+      ready++;
+      rightPlayer = document.getElementById("rightplayer");
+   }
+}
+
+// Code for interacting with Youtube flash players
+function loadLeft(id)
+{
+   leftPlayer.cueVideoById(id,0);
+   leftPlayer.seekTo(0,TRUE);
+   leftPlayer.playVideo();
+   leftPlayer.pauseVideo();
+}
+
+function loadRight(id)
+{
+   rightPlayer.cueVideoById(id,0);
+   rightPlayer.seekTo(0,TRUE);
+   rightPlayer.playVideo();
+   rightPlayer.pauseVideo();
+}
+
+function updateVol(x)
+{
+   // only reference players if they're loaded.  Otherwise JS error will halt functioning.
+   if (ready == 2)
+   {
+      rightPlayer.setVolume(x);
+      leftPlayer.setVolume(100-x);
+   }
+}
+
+// Playlist object, populates from Youtube JSON API and fills the playlist divs.
 function Playlist(src, name)
 {
+   // src is expected to be formatted as it's returned from Youtube JSON API v2
    this.src = src;
    this.name = name;
    this.loaded = 0;
@@ -199,70 +200,42 @@ function Playlist(src, name)
    return true;
 }
 
+// Load a youtube playlist from the youtube JSON api and render it to HTML
 function LoadPlaylist()
 {
-var playListURL = this.src+'&alt=json&callback=?';
-var videoURL= 'http://www.youtube.com/watch?v=';
-$.getJSON(playListURL, function(playlist){
-    return function(data) {
-      // create a closure around the json handler so it knows what this is
+   var playListURL = this.src+'&alt=json&callback=?';
+   var videoURL= 'http://www.youtube.com/watch?v=';
 
-      var list_data = '<table class="table table-bordered table-striped" valign="center" align="center">';
+   // create a closure around the json handler to pass the Playlist object
+   // so that the rendered HTML is stored in the Playlist object
+   $.getJSON(playListURL, function(playlist){
 
-      $.each(data.feed.entry, function(i, item) {
-        var feedTitle = item.title.$t;
-        var feedURL = item.link[1].href;
-        var fragments = feedURL.split("/");
-        var videoID = fragments[fragments.length - 2];
-        var url = videoURL + videoID;
-        var thumb = "http://img.youtube.com/vi/"+ videoID +"/default.jpg";
-//        list_data += '<div class="btn-group">';
-        list_data += "<tr>";
-        list_data += "<td><button class='btn' onClick='loadLeft(\"" + videoID + "\");'>Load Left</button></td>";
-        list_data += '<td><img width=50 height=50 src="' + thumb + '"></td><td>' + feedTitle + '</td>';
-        list_data += "<td><button class='btn' onClick='loadRight(\"" + videoID + "\");'>Load Right</button></td>";
-        list_data += "</tr>";
-//        list_data += '</div>';
-      });
+      return function(data) {
 
-      playlist.data = list_data;
-      RenderPlaylistTags();
-   };
+         var list_data = '<table class="table table-bordered table-striped" valign="center" align="center">';
+
+         // most of google's documentation is about the XML return format, reference using JSON:
+         // http://stackoverflow.com/questions/9521141/json-get-mroe-than-25-videos-from-youtube-playlist
+         $.each(data.feed.entry, function(i, item) {
+            var feedTitle = item.title.$t;
+            var feedURL = item.link[1].href;
+            var fragments = feedURL.split("/");
+            var videoID = fragments[fragments.length - 2];
+            var url = videoURL + videoID;
+            var thumb = "http://img.youtube.com/vi/"+ videoID +"/default.jpg";
+            list_data += "<tr>";
+            list_data += "<td><button class='btn' onClick='loadLeft(\"" + videoID + "\");'>Load Left</button></td>";
+            list_data += '<td><img width=50 height=50 src="' + thumb + '"></td><td>' + feedTitle + '</td>';
+            list_data += "<td><button class='btn' onClick='loadRight(\"" + videoID + "\");'>Load Right</button></td>";
+            list_data += "</tr>";
+         });
+
+         playlist.data = list_data;
+      };
    }(this));
-
 }
 
-var playlists = new Array();
-
-function LoadUsersPlaylists()
-{
-   var user = $('#youtube-user').val();
-
-   var listURL = 'https://gdata.youtube.com/feeds/api/users/' + user + '/playlists?v=2&alt=json&callback=?';
-
-   $.getJSON(listURL, function(data) {
-      playlists.length = 0;
-
-      $.each(data.feed.entry, function(i, item) {
-         playlists.push(new Playlist(item.content.src, item.title.$t));
-         playlists[0].selected = 1;
-      });
-
-      LoadPlaylists();
-   });
-
-}
-
-function LoadPlaylists()
-{
-   var x;
-   for (x in playlists)
-   {
-      playlists[x].Load();
-   }
-   RenderPlaylistTags();
-}
-
+// Render the navigation buttons for user to change playlists
 function RenderPlaylistTags()
 {
    var x;
@@ -295,6 +268,32 @@ function RenderPlaylistTags()
    }
 }
 
+// Loads all playlists for a given youtube user
+function LoadAllUsersPlaylists()
+{
+   var user = $('#youtube-user').val();
+
+   var listURL = 'https://gdata.youtube.com/feeds/api/users/' + user + '/playlists?v=2&alt=json&callback=?';
+
+   $.getJSON(listURL, function(data) {
+      playlists.length = 0;
+
+      $.each(data.feed.entry, function(i, item) {
+         playlists.push(new Playlist(item.content.src, item.title.$t));
+         playlists[0].selected = 1;
+      });
+
+      var i;
+      for (i in playlists)
+      {
+         playlists[i].Load();
+      }
+
+      RenderPlaylistTags();
+   });
+}
+
+// switch playlist on demand
 function SetPlaylist(idx)
 {
    for (x in playlists)
@@ -317,20 +316,29 @@ function getParameterByName(name)
     return decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+
+// run after DOM load
 $(document).ready(function(){
 
-if (getParameterByName("user"))
-{
-  $("#youtube-user").val(getParameterByName("user"));
-}
+    // Load the Youtube players
+    var params = { allowScriptAccess: "always" };
+    var leftatts = { id: "leftplayer" };
+    var rightatts = { id: "rightplayer" };
 
-LoadUsersPlaylists();
+    swfobject.embedSWF("http://www.youtube.com/v/hrsaB0Uune8&enablejsapi=1&playerapiid=leftplayer", 
+                       "leftplayerdiv", "320", "240", "8", null, null, params, leftatts);
 
-if (!$.cookie("visited"))
-{
-   alert("Welcome!  To change playlists enter a different youtube userid at the bottom of this page and click 'Load'.  Contact support@burnsmod.com for questions!");
-}
-$.cookie("visited","true");
+    swfobject.embedSWF("http://www.youtube.com/v/NdmwPadDlgQ&enablejsapi=1&playerapiid=rightplayer",
+                       "rightplayerdiv", "320", "240", "8", null, null, params, rightatts);
+
+    // If user specified in URL parameters, load specific user instead of default
+    if (getParameterByName("user"))
+    {
+        $("#youtube-user").val(getParameterByName("user"));
+    }
+
+    // Load and render playlists
+    LoadUsersPlaylists();
 
 });
 
@@ -347,8 +355,10 @@ $.cookie("visited","true");
 
 <h2>Change User</h2>
 <label for="youtube-user">Enter Youtube User ID (ie bentlovemusic):</label>
+<form>
 <input type="text" name="youtube-user" id="youtube-user" value="bentlovemusic">
 <input type="button" onClick="LoadUsersPlaylists();" value="Load Playlists" />
+</form>
 <p>To automatically load your playlist, append '?user=username' to the mixtube URL.</p>
 </div>
 
