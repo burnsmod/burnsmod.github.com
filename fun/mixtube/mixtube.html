@@ -243,6 +243,9 @@ function LoadPlaylist()
          });
 
          playlist.data = list_data;
+
+         // due to asycnronous nature of json callback execution we need to force the re-render in the callback.
+         RenderPlaylistTags();
       };
    }(this));
 }
