@@ -94,6 +94,9 @@
 
 <script type="text/javascript">
 
+// counter to ensure players are loaded before reference
+ready = 0;
+
 // predefine updateVol before slider definition
 function updateVol(x)
 {
@@ -148,8 +151,6 @@ function updateVol(x)
 
 // collected global variables
 
-// counter to ensure players are loaded before reference
-ready = 0;
 
 // loaded Playlists.
 var playlists = new Array();
