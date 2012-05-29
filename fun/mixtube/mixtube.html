@@ -94,6 +94,17 @@
 
 <script type="text/javascript">
 
+// predefine updateVol before slider definition
+function updateVol(x)
+{
+   // only reference players if they're loaded.  Otherwise JS error will halt functioning.
+   if (ready == 2)
+   {
+      rightPlayer.setVolume(x);
+      leftPlayer.setVolume(100-x);
+   }
+}
+
 
 </script>
 
