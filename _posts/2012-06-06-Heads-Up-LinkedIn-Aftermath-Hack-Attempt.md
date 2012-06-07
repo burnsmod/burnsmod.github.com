@@ -17,4 +17,4 @@ I do have a LinkedIn account and the password would likely have been hacked by n
 
 Looks like whoever has access to the usernames list is already starting to crossreference the entries and start cracking other site accounts.
 
-
+It's possible this was unrelated to LinkedIn but seems rather unlikely based on timing.  Either the people who hacked LinkedIn don't sleep or maybe the (username, password) list is now in the hands of a wider group.
