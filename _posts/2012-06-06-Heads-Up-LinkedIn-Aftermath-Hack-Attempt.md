@@ -3,7 +3,7 @@ layout: post
 category : hacking
 tags : [hacking, linkedin]
 description : Some evidence the LinkedIn hack fallout has already started with attempts to log into other accounts.
-
+title: Heads up!  LinkedIn hackers trying to access other sites.
 ---
 {% include JB/setup %}
 
