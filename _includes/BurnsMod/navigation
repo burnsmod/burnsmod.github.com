@@ -17,8 +17,8 @@ active
 {% endif %}
 " data-toggle="dropdown" href="#">Apps <b class="caret"></b></a>
                  <ul class="dropdown-menu">
+                    <li><a href="/software/oscpad.html">OSCPad</a></li>
                     <li><a href="/software/djpad.html">DJPad</a></li>
-                  <!--  <li><a href="/software/midipad.html">MIDIPad</a></li> -->
                  </ul>
               </li>
               <li><a href="/about.html">About</a></li>
