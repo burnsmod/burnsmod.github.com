@@ -1,0 +1,553 @@
+<html>
+<head>
+    <title>oscpad editor</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/CanvasState.js"></script>
+
+    <script type="text/javascript" src="js/farbtastic.js"></script>
+    <link rel="stylesheet" href="css/farbtastic.css" type="text/css" />
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+<script type="text/javascript">
+
+// globals
+var layout = {}
+var widgets = []
+
+var canvas;
+
+function initColors()
+{
+   return [
+            {name:"background", red: 0, green:0, blue:0 },
+            {name:"uibackground", red:20, green:20, blue:20},
+            {name:"black", red: 0, green:0, blue:0 },
+            {name:"white", red: 250, green:250, blue:250 },
+            {name:"red", red:250, green:0, blue:0 },
+            {name:"green", red:0, green:250, blue:0 },
+            {name:"blue", red:0, green:0, blue:250 }
+          ]
+}
+
+function initPanel()
+{
+   return {background:"black", title:"panel 1", widgets: [] }
+}
+
+function initLayout()
+{
+  layout = { global: {name:"layout name", description:"layout description", output:"OSC", resolution:{x:0, y:0, w:800, h:480}},
+             colors: initColors(),
+             panels: [ initPanel() ]
+           };
+
+  newWidget();
+
+}
+
+function Widget(num)
+{
+  this.ui = {"type":"button", 
+                  "label":{"text":"button", "position":"right"},
+                  "rect":{"x":20, "y":200, "w":40, "h":40},
+                  "color":"white",
+                  "group":2
+                 }
+
+  this.output = {"type":"osc", "name":"/button1"}
+
+  this.output.name = "/widget" + num
+  this.num = num
+
+  return this
+}
+
+function line(ctx,x1,y1,x2,y2)
+{
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x2,y2);
+  ctx.closePath();
+  ctx.stroke();
+}
+
+Widget.prototype.draw = function(ctx)
+{
+  centerx = this.ui.rect.x + (this.ui.rect.w/2);
+  centery = this.ui.rect.y + (this.ui.rect.h/2);
+
+  ctx.strokeStyle="#ee0000";
+  if (this.ui.type == "knob")
+  {
+    ctx.strokeStyle="#222222";
+  }
+
+  ctx.fillStyle="#222222";
+  ctx.fillRect(this.ui.rect.x, this.ui.rect.y, this.ui.rect.w, this.ui.rect.h);
+  ctx.strokeRect(this.ui.rect.x, this.ui.rect.y, this.ui.rect.w, this.ui.rect.h);
+
+  if (this.ui.type == "button")
+  {
+    ctx.fillStyle="#ee0000";
+
+    //draw a circle
+    ctx.beginPath();
+    ctx.arc(centerx, centery, this.ui.rect.w*0.4, 0, Math.PI*2, true); 
+    ctx.closePath();
+    ctx.fill();
+  }
+  else if (this.ui.type == "slider")
+  {
+    ctx.fillStyle="#ee0000"
+    x = this.ui.rect.x;
+    y = this.ui.rect.y;
+    w = this.ui.rect.w;
+    h = this.ui.rect.h;
+    if (this.ui.vertical)
+    {
+       if (this.ui.from_mid)
+       {
+          y = this.ui.rect.y + (h/2);
+          h = this.ui.rect.h/6;
+       }
+       else
+       {
+          h = this.ui.rect.h/3;
+       }
+       if (this.ui.invert)
+       {
+          totaly = this.ui.rect.y + this.ui.rect.h;
+          y = this.ui.rect.y + (totaly - (y + h));  
+       }
+    } else {
+       if (this.ui.from_mid)
+       {
+         x = this.ui.rect.x + (w/2);
+         w = this.ui.rect.w/6;
+       } else {
+         w = this.ui.rect.w/3;
+       }
+       if (this.ui.invert)
+       {
+          totalx = this.ui.rect.x + this.ui.rect.w;
+          x = this.ui.rect.x + (totalx - (x + w));
+       }
+    }
+    ctx.fillRect(x,y,w,h);
+  }
+  else if (this.ui.type == "xy")
+  {
+    line(ctx, centerx, this.ui.rect.y, centerx, this.ui.rect.y+this.ui.rect.h);
+    // Stroked triangle
+    line(ctx, this.ui.rect.x, centery, this.ui.rect.x+this.ui.rect.w, centery);
+  }
+  else if (this.ui.type == "knob")
+  {
+    arcStart = Math.PI*0.5;
+    ctx.fillStyle="#ee0000";
+    ctx.beginPath();
+    ctx.arc(centerx, centery, this.ui.rect.w*0.4, arcStart-0.3, arcStart+0.3,true);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle="#222222";
+    ctx.beginPath();
+    ctx.arc(centerx, centery, this.ui.rect.w*0.2, 0, Math.PI*2, true);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(centerx,centery);
+    ctx.lineTo(this.ui.rect.x, this.ui.rect.y+this.ui.rect.h);
+    ctx.lineTo(this.ui.rect.x+this.ui.rect.w, this.ui.rect.y+this.ui.rect.h);
+    ctx.closePath();
+    ctx.fill();
+
+  }
+}
+
+Widget.prototype.to_struct = function()
+{
+   return {ui:this.ui, output:this.output}
+}
+
+// Determine if a point is inside the shape's bounds
+Widget.prototype.contains = function(x, y) {
+
+  //alert ("is " + x + "," + y + " in " + this.ui.rect.x + "," + this.ui.rect.y + "," + this.ui.rect.w + "," + this.ui.rect.h);
+
+  // All we have to do is make sure the Mouse X,Y fall in the area between
+  // the shape's X and (X + Height) and its Y and (Y + Height)
+  return  (this.ui.rect.x <= x) && (this.ui.rect.x + this.ui.rect.w >= x) &&
+          (this.ui.rect.y <= y) && (this.ui.rect.y + this.ui.rect.h >= y);
+}
+
+Widget.prototype.clone = function() {
+  as_string = JSON.stringify(wid.to_struct());
+  widget = new Widget(widgets.length);
+
+  widget.ui = JSON.parse(as_string).ui;
+  widget.output = JSON.parse(as_string).output;
+
+  return widget;
+}
+
+
+function renderJSON()
+{
+  layout.panels[0].widgets = []
+  for (x = 0; x < widgets.length; x++)
+  {
+    layout.panels[0].widgets.push(widgets[x].to_struct())
+  }
+}
+
+function renderGlobals()
+{
+  $('#global-name').val(layout.global.name)
+  $('#global-description').val(layout.global.description)
+
+}
+
+function exportJSON()
+{
+  renderJSON();
+  uriContent = "data:application/octet-stream," + encodeURIComponent(JSON.stringify(layout));
+  location.href = uriContent;
+
+}
+
+function syncGlobals()
+{
+   layout.global.name = $('#global-name').val()
+   layout.global.description = $('#global-description').val()
+}
+
+function syncWidgetList(val)
+{
+   $('#widget-select').empty()
+
+   // deal with the widget select box
+   for (x = 0; x < widgets.length; x++)
+   {
+      sel = ""
+      if (val == x)
+      {
+         sel = ' selected="selected"'
+      }
+
+      $('#widget-select').append("<option value='" + x + "' " + sel + ">" + widgets[x].output.name + "</option>")
+   }
+   $('#widget-select').select(val)
+}
+
+function newWidget()
+{
+  wid = new Widget(widgets.length)
+
+  widgets.push(wid)
+  canvas.addWidget(wid);
+
+  syncWidgetList(widgets.length-1)
+  selectWidget()
+
+  renderJSON();
+
+  return false
+}
+
+function cloneWidget()
+{
+  widget = wid.clone();
+
+  widget.output.name = "/widget" + widgets.length
+  widgets.push(widget);
+  canvas.addWidget(widget);
+
+  widget.ui.rect.x += 10;
+  widget.ui.rect.y += 10;
+
+  syncWidgetList(widgets.length-1);
+  selectWidget();
+
+  renderJSON();
+}
+
+function deleteWidget()
+{
+  for (i = 0; i < widgets.length; i++)
+  {
+    if (widgets[i] == wid)
+    {
+      alert("Deleting " + widgets[i].output.name)
+      canvas.deleteWidget(widgets[i]);
+      widgets.splice(i, 1);
+      break;
+    }
+  }
+  syncWidgetList(i);
+  selectWidget();
+}
+
+
+function showWidgetPane()
+{
+  $('#slider-vals').hide();
+  $('#knob-vals').hide();
+  $('#button-vals').hide();
+
+  if (wid.ui.type == "button")
+  {
+    $('#button-vals').show();
+  }
+  if (wid.ui.type == "knob")
+  {
+    if (wid.ui.from_mid == 1)
+    {
+      $('#knob-from-middle').attr('checked', true);
+    } else {
+      $('#knob-from-middle').attr('checked', false);
+    }
+
+    $('#knob-vals').show();
+  }
+  if (wid.ui.type == "slider")
+  {
+    if (wid.ui.from_mid == 1)
+    {
+      $('#slider-from-middle').attr('checked', true);
+    } else {
+      $('#slider-from-middle').attr('checked', false);
+    }
+    if (wid.ui.vertical == 1)
+    {
+      $('#slider-vertical').attr('checked', true);
+    } else {
+      $('#slider-vertical').attr('checked', false);
+    }
+    if (wid.ui.invert == 1)
+    {
+      $('#slider-invert').attr('checked', true);
+    } else {
+      $('#slider-invert').attr('checked', false);
+    }
+
+    $('#slider-vals').show();
+  }
+}
+
+function saveWidget()
+{
+  wid = widgets[$('#widget-select').val()]
+
+  nameChanged = 0
+  posChanged = 0
+  typeChanged = 0
+
+  if (wid.ui.type != $('#widget-type').val())
+  {
+    typeChanged = 1
+  }
+
+  if ($('#widget-path').val() != wid.ui.name)
+  {
+    nameChanged = 1
+  }
+
+  if (parseInt($('#widget-x').val()) != wid.ui.rect.x ||
+      parseInt($('#widget-y').val()) != wid.ui.rect.y ||
+      parseInt($('#widget-w').val()) != wid.ui.rect.w ||
+      parseInt($('#widget-h').val()) != wid.ui.rect.h)
+  {
+    posChanged = 1
+  }
+
+  wid.ui.type = $('#widget-type').val()
+  wid.output.name = $('#widget-path').val()
+  wid.ui.rect.x = parseInt($('#widget-x').val())
+  wid.ui.rect.y = parseInt($('#widget-y').val())
+  wid.ui.rect.w = parseInt($('#widget-w').val())
+  wid.ui.rect.h = parseInt($('#widget-h').val())
+
+  if (wid.ui.type == "knob")
+  {
+    if ($('#knob-from-middle').is(':checked') == true)
+    {
+      wid.ui.from_mid = 1;
+    } else {
+      wid.ui.from_mid = 0;
+    }
+  }
+
+  if (wid.ui.type == "slider")
+  {
+    if ($('#slider-from-middle').is(':checked') == true)
+    {
+      wid.ui.from_mid = 1;
+    } else {
+      wid.ui.from_mid = 0;
+    }
+    if ($('#slider-vertical').is(':checked') == true)
+    {
+      wid.ui.vertical = 1;
+    } else {
+      wid.ui.vertical = 0;
+    }
+    if ($('#slider-invert').is(':checked') == true)
+    {
+      wid.ui.invert = 1;
+    } else {
+      wid.ui.invert = 0;
+    }
+  }
+
+  if (nameChanged == 1)
+  {
+    syncWidgetList($('#widget-select').val())
+  }
+
+  if (posChanged == 1 || typeChanged == 1)
+  {
+    drawAll()
+  }
+
+  if (typeChanged == 1)
+  {
+    showWidgetPane();
+  }
+}
+
+
+function selectWidget()
+{
+  wid = widgets[$('#widget-select').val()]
+
+  $('#widget-type').val(wid.ui.type)
+  $('#widget-path').val(wid.output.name)
+  $('#widget-x').val(wid.ui.rect.x)
+  $('#widget-y').val(wid.ui.rect.y)
+  $('#widget-w').val(wid.ui.rect.w)
+  $('#widget-h').val(wid.ui.rect.h)
+
+  canvas.selection = wid;
+  canvas.valid = false;
+
+  showWidgetPane();
+}
+
+function drawAll() {
+    canvas.valid = false;
+  	canvas.draw();
+}
+
+  $(function() {
+
+    canvas = new CanvasState(document.getElementById('display'));
+    initLayout();
+    renderGlobals();
+
+    $('#colorpicker').farbtastic('#color');
+
+    drawAll();
+
+    $("#widget-select").change(function() {
+       selectWidget();
+    });
+  })
+
+</script>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+<br /><br />
+<div class="tabbable"> <!-- Only required for left/right tabs -->
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">Layout Details</a></li>
+    <li><a href="#tab2" data-toggle="tab">Widgets</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+      <div id="global">
+        <form class="well">
+        Name: <input name="global-name" id="global-name" onChange="saveGlobals();" type="text" /><br /><br />
+        Description:<br /><textarea style="resize:none" id="global-description" onChange="saveGlobals();" rows=5 name="global-description"></textarea>
+        Color:
+
+        Set Color:
+        <form><input type="text" id="color" name="color" value="#123456" /></form>
+        <div id="colorpicker"></div>
+      </form>
+      </div>
+    </div>
+    <div class="tab-pane" id="tab2">
+      <select name="widget-select" id="widget-select" /></select><br />
+         <button class="btn" name="new-widget" id="new-widget" onClick="newWidget();" />New</button>
+         <button class="btn" name="clone-widget" id="clone-widget" onClick="cloneWidget();" />Clone</button>
+         <button class="btn" name="delete-widget" id="delete-widget" onClick="deleteWidget();" />Delete</button>
+         <br />
+         <br /><br />
+
+         Type:<br /><select name="widget-type" id="widget-type" onChange="saveWidget();">
+<option value="button">button</option>
+<option value="textbutton">textbutton</option>
+<option value="slider">slider</option>
+<option value="xy">XY pad</option>
+<option value="knob">Knob</option>
+</select><br />
+OSC Path:<br /><input name="widget-path" id="widget-path" onChange="saveWidget();" type="text" /><br />
+         Position:<br>
+         <table border=0 cellpadding=5 valign=center>
+         <tr><td>x:</td>
+             <td><input type="text" name="widget-x" id="widget-x" onChange="saveWidget();" size=5 style="width:60px; padding:10px; text-align:right;"/>
+             </td>
+         <td>y:</td><td><input type="text" name="widget-y" id="widget-y" onChange="saveWidget();" size=5 style="width:60px; padding:10px; text-align:right;"/><br /></td></tr>
+         </table>
+         <table border=0 cellpadding=5 valign=center>
+         <tr><td>w:</td>
+             <td><button class="btn btn-info" onClick="$('#widget-w').val(parseInt($('#widget-w').val())-10); saveWidget();">-</button>
+                 <input type="text" name="widget-w" id="widget-w" onChange="saveWidget();" size=5 style="width:60px; padding:10px; text-align:right;"/>
+                 <button class="btn btn-info" onClick="$('#widget-w').val(parseInt($('#widget-w').val())+10); saveWidget();">+</button>
+             </td></tr>
+         <td>h:</td>
+         <td>
+            <button class="btn btn-info" onClick="$('#widget-h').val(parseInt($('#widget-h').val())-10); saveWidget();">-</button>
+            <input type="text" name="widget-h" id="widget-h" onChange="saveWidget();" size=5 style="width:60px; padding:10px; text-align:right;"/>
+            <button class="btn btn-info" onClick="$('#widget-h').val(parseInt($('#widget-h').val())+10); saveWidget();">+</button>
+         </td></tr>
+         </table>
+
+    <div id="slider-vals">
+      <input type="checkbox" name="slider-vertical" id="slider-vertical" onChange="saveWidget(); drawAll();" />Vertical<br />
+      <input type="checkbox" name="slider-from-middle" id="slider-from-middle" onChange="saveWidget(); drawAll();" />Draw from Middle<br />
+      <input type="checkbox" name="slider-invert" id="slider-invert" onChange="saveWidget(); drawAll();" />Invert<br />
+    </div>
+    <div id="knob-vals">
+      <input type="checkbox" name="knob-from-middle" id="knob-from-middle" onChange="saveWidget(); drawAll();" />Draw from center<br />
+    </div>
+    <div id="button-vals">
+      Button values
+    </div>
+  </div>
+  <div class="tab-pane" id="tab3">
+  </div>
+  </div>
+</div>
+
+    </div>
+    <div class="span9">
+        <canvas id="display" width="800" height="480" style="margin-top:50px; margin-bottom:40px;">
+This text is displayed if your browser does not support HTML5 Canvas.
+        </canvas>
+        <button class="btn btn-success btn-large" style="width:200px; height:60px;" onClick="exportJSON();">Export Layout</button>
+    </div>
+  </div>
+</div>
+
+</body>
+
