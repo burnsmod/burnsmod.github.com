@@ -32,6 +32,20 @@
 
 </script>
 
+<style type="text/css">
+  .properties-section {
+    margin-top:10px;
+    margin-bottom:10px;
+    padding-top:5px; 
+    padding-bottom:2px; 
+    padding-left:5px; 
+    border-radius:5px; 
+    -moz-border-radius:5px;
+    background-color:#fafafa;
+  }
+  
+</style>
+
 <script type="text/javascript">
 
 // globals
@@ -75,7 +89,8 @@ function Widget(num)
                   "label":{"text":"Turn On", "position":""},
                   "rect":{"x":20, "y":200, "w":40, "h":40},
                   "color":"white",
-                  "group":2
+                  "group":0,
+                  "value":1
                  }
 
   this.output = {"type":"osc", "name":"/button1"}
@@ -464,6 +479,17 @@ function showWidgetPane()
 
     $('#slider-vals').show();
   }
+  if (wid.ui.type == "button")
+  {
+    if (wid.ui.momentary == 1)
+    {
+      $('#button-momentary').attr('checked', true);
+    } else {
+      $('#button-momentary').attr('checked', false);
+    }
+    $('#button-value').val(wid.ui.value);
+    $('#button-group').val(wid.ui.group);
+  }
 }
 
 function saveWidget()
@@ -543,6 +569,21 @@ function saveWidget()
     } else {
       wid.ui.invert = 0;
     }
+  }
+
+  if (wid.ui.type == "button")
+  {
+    if ($('#button-momentary').is(':checked') == true)
+    {
+      wid.ui.momentary = 1;
+    } else {
+      wid.ui.momentary = 0;
+    }
+    wid.ui.value = parseInt($('#button-value').val());
+    if (wid.ui.value == NaN) {
+      wid.ui.value = 0;
+    }
+    wid.ui.group = parseInt($('#button-group').val());
   }
 
   if (nameChanged == 1)
@@ -630,7 +671,8 @@ function drawAll() {
       </div>
     </div>
     <div class="tab-pane" id="tab2">
-      <div id="widget-section-1" class="widget-section-1">
+      <div id="widget-section-1" class="properties-section">
+        <b>Functional</b>
         <select name="widget-select" id="widget-select" /></select><br />
           <button class="btn" name="new-widget" id="new-widget" onClick="newWidget();" />New</button>
           <button class="btn" name="clone-widget" id="clone-widget" onClick="cloneWidget();" />Clone</button>
@@ -640,14 +682,27 @@ function drawAll() {
 
           Type:<br /><select name="widget-type" id="widget-type" onChange="saveWidget();">
                        <option value="button">button</option>
-                       <option value="textbutton">textbutton</option>
                        <option value="slider">slider</option>
                        <option value="xy">XY pad</option>
                        <option value="knob">Knob</option>
                      </select><br />
           OSC Path:<br /><input name="widget-path" id="widget-path" onChange="saveWidget();" type="text" /><br />
+        <div id="slider-vals">
+          <input type="checkbox" name="slider-vertical" id="slider-vertical" onChange="saveWidget(); drawAll();" />Vertical<br />
+          <input type="checkbox" name="slider-from-middle" id="slider-from-middle" onChange="saveWidget(); drawAll();" />Draw from Middle<br />
+          <input type="checkbox" name="slider-invert" id="slider-invert" onChange="saveWidget(); drawAll();" />Invert<br />
+        </div>
+        <div id="knob-vals">
+          <input type="checkbox" name="knob-from-middle" id="knob-from-middle" onChange="saveWidget(); drawAll();" />Draw from center<br />
+        </div>
+        <div id="button-vals">
+          <input type="checkbox" name="button-momentary" id="button-momentary" onChange="saveWidget();" />Momentary<br />
+          Output Value:<br /><input type="text" name="button-value" id="button-value" onChange="saveWidget();" /><br />
+          Button Group:<br /><input type="text" name="button-group" id="button-group" onChange="saveWidget();" /><br />
+        </div>
       </div>
-      <div id="widget-section-2" class="widget-section-2">
+      <div id="widget-section-2" class="properties-section">
+        <b>Appearance</b><br />
         Position:<br>
          <table border=0 cellpadding=5 valign=center>
          <tr><td>x:</td>
@@ -680,24 +735,6 @@ function drawAll() {
 <option value="left">Left</option>
 </select><br />
          Label Text:<br /><input type="text" name="label-text" id="label-text" onChange="saveWidget();">
-      </div>
-      <div id="widget-section-3" class="widget-section-3">
-        <div id="slider-vals">
-          <input type="checkbox" name="slider-vertical" id="slider-vertical" onChange="saveWidget(); drawAll();" />Vertical<br />
-          <input type="checkbox" name="slider-from-middle" id="slider-from-middle" onChange="saveWidget(); drawAll();" />Draw from Middle<br />
-          <input type="checkbox" name="slider-invert" id="slider-invert" onChange="saveWidget(); drawAll();" />Invert<br />
-        </div>
-        <div id="knob-vals">
-          <input type="checkbox" name="knob-from-middle" id="knob-from-middle" onChange="saveWidget(); drawAll();" />Draw from center<br />
-        </div>
-        <div id="button-vals">
-          Output Value:<br /><input type="text" name="button-value" id="button-value" onChange="saveWidget();" /><br />
-          <input type="checkbox" name="button-momentary" id="button-momentary" onChange="saveWidget();" />Momentary<br />
-          <input type="checkbox" name="button-grouped" id="button-grouped" onChange="saveWidget()l" />Grouped<br />
-          Button Group:<br /><input type="text" name="button-group" id="button-group" onChange="saveWidget();" /><br />
-
-          
-        </div>
       </div>
   </div>
   <div class="tab-pane" id="tab3">
