@@ -1,5 +1,6 @@
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>oscpad editor</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
@@ -10,6 +11,26 @@
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30757461-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+   // ADD THIS AT THE BOTTOM OF YOUR GOOGLE ANALYTICS TRACKING CODE //
+   window.onerror = function(message, file, line) {
+      var sFormattedMessage = '[' + file + ' (' + line + ')] ' + message;
+      _gaq.push(['_trackEvent', 'Exceptions', 'Application', sFormattedMessage, null, true]);
+   }
+
+</script>
 
 <script type="text/javascript">
 
@@ -44,14 +65,14 @@ function initLayout()
              panels: [ initPanel() ]
            };
 
+  syncColorList();
   newWidget();
-
 }
 
 function Widget(num)
 {
   this.ui = {"type":"button", 
-                  "label":{"text":"button", "position":"right"},
+                  "label":{"text":"Turn On", "position":""},
                   "rect":{"x":20, "y":200, "w":40, "h":40},
                   "color":"white",
                   "group":2
@@ -74,12 +95,55 @@ function line(ctx,x1,y1,x2,y2)
   ctx.stroke();
 }
 
+function colorToRGB(col)
+{
+  for(i = 0; i < layout.colors.length; i++)
+  {
+    if (col == layout.colors[i].name)
+    {
+       return "rgb(" + layout.colors[i].red + ", " + layout.colors[i].green + ", " + layout.colors[i].blue + ");";
+    }
+  }
+}
+
+function colorToHex(col) {
+    color = colorToRGB(col);
+
+    if (color.substr(0, 1) === '#') {
+        return color;
+    }
+    var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+    
+    var red = parseInt(digits[2]);
+    var green = parseInt(digits[3]);
+    var blue = parseInt(digits[4]);
+    var redString = red.toString(16);
+    var greenString = green.toString(16);
+    var blueString = blue.toString(16);
+    if (redString.length == 1)
+    {
+       redString = "0" + redString;
+    }
+    if (greenString.length == 1)
+    {
+       greenString = "0" + greenString;
+    }
+    if (blueString.length == 1)
+    {
+       blueString = "0" + blueString;
+    }
+    return digits[1] + '#' + redString + greenString + blueString;
+};
+
 Widget.prototype.draw = function(ctx)
 {
   centerx = this.ui.rect.x + (this.ui.rect.w/2);
   centery = this.ui.rect.y + (this.ui.rect.h/2);
 
-  ctx.strokeStyle="#ee0000";
+  widgetColor = colorToRGB(this.ui.color);
+
+  // draw border around most widgets
+  ctx.strokeStyle= widgetColor;
   if (this.ui.type == "knob")
   {
     ctx.strokeStyle="#222222";
@@ -91,7 +155,7 @@ Widget.prototype.draw = function(ctx)
 
   if (this.ui.type == "button")
   {
-    ctx.fillStyle="#ee0000";
+    ctx.fillStyle= widgetColor;
 
     //draw a circle
     ctx.beginPath();
@@ -101,7 +165,7 @@ Widget.prototype.draw = function(ctx)
   }
   else if (this.ui.type == "slider")
   {
-    ctx.fillStyle="#ee0000"
+    ctx.fillStyle= widgetColor;
     x = this.ui.rect.x;
     y = this.ui.rect.y;
     w = this.ui.rect.w;
@@ -147,7 +211,7 @@ Widget.prototype.draw = function(ctx)
   else if (this.ui.type == "knob")
   {
     arcStart = Math.PI*0.5;
-    ctx.fillStyle="#ee0000";
+    ctx.fillStyle=widgetColor;
     ctx.beginPath();
     ctx.arc(centerx, centery, this.ui.rect.w*0.4, arcStart-0.3, arcStart+0.3,true);
     ctx.closePath();
@@ -165,7 +229,42 @@ Widget.prototype.draw = function(ctx)
     ctx.lineTo(this.ui.rect.x+this.ui.rect.w, this.ui.rect.y+this.ui.rect.h);
     ctx.closePath();
     ctx.fill();
+  }
 
+  // draw label
+  ctx.fillStyle = widgetColor;
+  ctx.font = '14px Arial';
+
+  labelx = centerx;
+  labely = centery;
+
+  switch (this.ui.label.position)
+  {
+  case "bottom":
+    labely = this.ui.rect.y + this.ui.rect.h + 10;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    break
+  case "top":
+    labely = this.ui.rect.y - 5;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    break
+  case "left":
+    labelx = this.ui.rect.x - 10;
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    break;
+  case "right":
+    labelx = this.ui.rect.x + this.ui.rect.w + 5;
+    ctx.textAlign = "left";
+    ctx.textBaseline = 'middle';
+    break;
+  }
+
+  if (this.ui.label.position != "")
+  {
+    ctx.fillText(this.ui.label.text, labelx, labely);
   }
 }
 
@@ -242,6 +341,34 @@ function syncWidgetList(val)
       $('#widget-select').append("<option value='" + x + "' " + sel + ">" + widgets[x].output.name + "</option>")
    }
    $('#widget-select').select(val)
+}
+
+function syncColorList(num)
+{
+ $('#widget-color').empty()
+ $('#color-select').empty()
+
+ val = $('#widget-color').val()
+
+ for (x = 0; x < layout.colors.length; x++)
+ {
+   sel = ""
+   if (val == layout.colors[x].name)
+   {
+     sel = ' selected="selected"'
+   }
+   $('#widget-color').append("<option value='" + layout.colors[x].name + "' " + sel + ">" + layout.colors[x].name + "</option>")
+ }
+
+ for (x = 0; x < layout.colors.length; x++)
+ {
+   sel = ""
+   if (x == num)
+   {
+     sel = ' selected="selected"'
+   }
+   $('#color-select').append("<option value='" + x + "' " + sel + ">" + layout.colors[x].name + "</option>")
+ }
 }
 
 function newWidget()
@@ -347,6 +474,16 @@ function saveWidget()
   posChanged = 0
   typeChanged = 0
 
+  if (wid.ui.label.position != $('#label-position').val() || wid.ui.label.text != $('#label-text').val())
+  {
+    posChanged = 1
+  }
+
+  if (wid.ui.color != $('#widget-color').val())
+  {
+    posChanged = 1
+  }
+
   if (wid.ui.type != $('#widget-type').val())
   {
     typeChanged = 1
@@ -371,6 +508,10 @@ function saveWidget()
   wid.ui.rect.y = parseInt($('#widget-y').val())
   wid.ui.rect.w = parseInt($('#widget-w').val())
   wid.ui.rect.h = parseInt($('#widget-h').val())
+
+  wid.ui.label.text = $('#label-text').val();
+  wid.ui.label.position = $('#label-position').val();
+  wid.ui.color = $('#widget-color').val();
 
   if (wid.ui.type == "knob")
   {
@@ -420,6 +561,10 @@ function saveWidget()
   }
 }
 
+function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
+function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
+function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
+function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
 
 function selectWidget()
 {
@@ -431,6 +576,11 @@ function selectWidget()
   $('#widget-y').val(wid.ui.rect.y)
   $('#widget-w').val(wid.ui.rect.w)
   $('#widget-h').val(wid.ui.rect.h)
+
+  $('#label-text').val(wid.ui.label.text)
+  $('#label-position').val(wid.ui.label.position)
+
+  $('#widget-color').val(wid.ui.color)
 
   canvas.selection = wid;
   canvas.valid = false;
@@ -448,8 +598,6 @@ function drawAll() {
     canvas = new CanvasState(document.getElementById('display'));
     initLayout();
     renderGlobals();
-
-    $('#colorpicker').farbtastic('#color');
 
     drawAll();
 
@@ -477,31 +625,30 @@ function drawAll() {
         <form class="well">
         Name: <input name="global-name" id="global-name" onChange="saveGlobals();" type="text" /><br /><br />
         Description:<br /><textarea style="resize:none" id="global-description" onChange="saveGlobals();" rows=5 name="global-description"></textarea>
-        Color:
-
-        Set Color:
-        <form><input type="text" id="color" name="color" value="#123456" /></form>
-        <div id="colorpicker"></div>
+        </form>
       </form>
       </div>
     </div>
     <div class="tab-pane" id="tab2">
-      <select name="widget-select" id="widget-select" /></select><br />
-         <button class="btn" name="new-widget" id="new-widget" onClick="newWidget();" />New</button>
-         <button class="btn" name="clone-widget" id="clone-widget" onClick="cloneWidget();" />Clone</button>
-         <button class="btn" name="delete-widget" id="delete-widget" onClick="deleteWidget();" />Delete</button>
-         <br />
-         <br /><br />
+      <div id="widget-section-1" class="widget-section-1">
+        <select name="widget-select" id="widget-select" /></select><br />
+          <button class="btn" name="new-widget" id="new-widget" onClick="newWidget();" />New</button>
+          <button class="btn" name="clone-widget" id="clone-widget" onClick="cloneWidget();" />Clone</button>
+          <button class="btn" name="delete-widget" id="delete-widget" onClick="deleteWidget();" />Delete</button>
+          <br />
+          <br /><br />
 
-         Type:<br /><select name="widget-type" id="widget-type" onChange="saveWidget();">
-<option value="button">button</option>
-<option value="textbutton">textbutton</option>
-<option value="slider">slider</option>
-<option value="xy">XY pad</option>
-<option value="knob">Knob</option>
-</select><br />
-OSC Path:<br /><input name="widget-path" id="widget-path" onChange="saveWidget();" type="text" /><br />
-         Position:<br>
+          Type:<br /><select name="widget-type" id="widget-type" onChange="saveWidget();">
+                       <option value="button">button</option>
+                       <option value="textbutton">textbutton</option>
+                       <option value="slider">slider</option>
+                       <option value="xy">XY pad</option>
+                       <option value="knob">Knob</option>
+                     </select><br />
+          OSC Path:<br /><input name="widget-path" id="widget-path" onChange="saveWidget();" type="text" /><br />
+      </div>
+      <div id="widget-section-2" class="widget-section-2">
+        Position:<br>
          <table border=0 cellpadding=5 valign=center>
          <tr><td>x:</td>
              <td><input type="text" name="widget-x" id="widget-x" onChange="saveWidget();" size=5 style="width:60px; padding:10px; text-align:right;"/>
@@ -521,18 +668,37 @@ OSC Path:<br /><input name="widget-path" id="widget-path" onChange="saveWidget()
             <button class="btn btn-info" onClick="$('#widget-h').val(parseInt($('#widget-h').val())+10); saveWidget();">+</button>
          </td></tr>
          </table>
+         <br />
+         Color:<br /><select name="widget-color" id="widget-color" onChange="saveWidget();">
+</select><br />
 
-    <div id="slider-vals">
-      <input type="checkbox" name="slider-vertical" id="slider-vertical" onChange="saveWidget(); drawAll();" />Vertical<br />
-      <input type="checkbox" name="slider-from-middle" id="slider-from-middle" onChange="saveWidget(); drawAll();" />Draw from Middle<br />
-      <input type="checkbox" name="slider-invert" id="slider-invert" onChange="saveWidget(); drawAll();" />Invert<br />
-    </div>
-    <div id="knob-vals">
-      <input type="checkbox" name="knob-from-middle" id="knob-from-middle" onChange="saveWidget(); drawAll();" />Draw from center<br />
-    </div>
-    <div id="button-vals">
-      Button values
-    </div>
+         Label:<br /><select name="label-position" id="label-position" onChange="saveWidget();">
+<option value="">None</option>
+<option value="top">Top</option>
+<option value="bottom">Bottom</option>
+<option value="right">Right</option>
+<option value="left">Left</option>
+</select><br />
+         Label Text:<br /><input type="text" name="label-text" id="label-text" onChange="saveWidget();">
+      </div>
+      <div id="widget-section-3" class="widget-section-3">
+        <div id="slider-vals">
+          <input type="checkbox" name="slider-vertical" id="slider-vertical" onChange="saveWidget(); drawAll();" />Vertical<br />
+          <input type="checkbox" name="slider-from-middle" id="slider-from-middle" onChange="saveWidget(); drawAll();" />Draw from Middle<br />
+          <input type="checkbox" name="slider-invert" id="slider-invert" onChange="saveWidget(); drawAll();" />Invert<br />
+        </div>
+        <div id="knob-vals">
+          <input type="checkbox" name="knob-from-middle" id="knob-from-middle" onChange="saveWidget(); drawAll();" />Draw from center<br />
+        </div>
+        <div id="button-vals">
+          Output Value:<br /><input type="text" name="button-value" id="button-value" onChange="saveWidget();" /><br />
+          <input type="checkbox" name="button-momentary" id="button-momentary" onChange="saveWidget();" />Momentary<br />
+          <input type="checkbox" name="button-grouped" id="button-grouped" onChange="saveWidget()l" />Grouped<br />
+          Button Group:<br /><input type="text" name="button-group" id="button-group" onChange="saveWidget();" /><br />
+
+          
+        </div>
+      </div>
   </div>
   <div class="tab-pane" id="tab3">
   </div>
@@ -543,7 +709,7 @@ OSC Path:<br /><input name="widget-path" id="widget-path" onChange="saveWidget()
     <div class="span9">
         <canvas id="display" width="800" height="480" style="margin-top:50px; margin-bottom:40px;">
 This text is displayed if your browser does not support HTML5 Canvas.
-        </canvas>
+        </canvas> <br />
         <button class="btn btn-success btn-large" style="width:200px; height:60px;" onClick="exportJSON();">Export Layout</button>
     </div>
   </div>

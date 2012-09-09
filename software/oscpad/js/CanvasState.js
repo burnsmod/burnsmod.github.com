@@ -64,7 +64,7 @@ function CanvasState(canvas) {
         myState.dragging = true;
         myState.selection = mySel;
         myState.valid = false;
-        $('#widget-select').val(myState.selection.num);
+        $('#widget-select').val(i);
         $('#widget-select').change();
         selectWidget();
         return;
