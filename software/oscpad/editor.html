@@ -1,6 +1,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1, IE=edge">
+
     <title>oscpad editor</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
@@ -12,6 +14,7 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
+<!--[if lt IE 9]><script type="text/javascript" src="js/excanvas.compiled.js"></script><![endif]-->
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -634,8 +637,7 @@ function drawAll() {
   	canvas.draw();
 }
 
-  $(function() {
-
+function onLoad() {
     canvas = new CanvasState(document.getElementById('display'));
     initLayout();
     renderGlobals();
@@ -645,7 +647,10 @@ function drawAll() {
     $("#widget-select").change(function() {
        selectWidget();
     });
-  })
+}
+
+  window.onload = onLoad
+
 
 </script>
 </head>
