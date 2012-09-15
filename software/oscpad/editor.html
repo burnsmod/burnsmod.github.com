@@ -655,7 +655,7 @@ var isMobile = {
     }
 };
 
-$(function() {
+$(window).load(function() {
     if (isMobile.any())
     {
       alert("OSCPad editor was made for computers, not mobile devices.  If it doesn't work please use a computer.");
@@ -670,10 +670,7 @@ $(function() {
     $("#widget-select").change(function() {
        selectWidget();
     });
-})
-
-  window.onload = onLoad
-
+});
 
 </script>
 </head>
