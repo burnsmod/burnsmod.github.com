@@ -87,6 +87,12 @@ function initLayout()
   newWidget();
 }
 
+function saveGlobals()
+{
+  layout.global.name = $('#global-name').val();
+  layout.global.description = $('#global-description').val();
+}
+
 function Widget(num)
 {
   this.ui = {"type":"button", 
@@ -689,11 +695,10 @@ $(window).load(function() {
   <div class="tab-content">
     <div class="tab-pane active" id="tab1">
       <div id="global">
-        <form class="well">
-        Name: <input name="global-name" id="global-name" onChange="saveGlobals();" type="text" /><br /><br />
+      <div id="global-section-1" class="properties-section">
+        Name: <br /><input name="global-name" id="global-name" onChange="saveGlobals();" type="text" /><br /><br />
         Description:<br /><textarea style="resize:none" id="global-description" onChange="saveGlobals();" rows=5 name="global-description"></textarea>
-        </form>
-      </form>
+      </div>
       </div>
     </div>
     <div class="tab-pane" id="tab2">
