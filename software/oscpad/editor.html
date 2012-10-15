@@ -289,7 +289,11 @@ Widget.prototype.draw = function(ctx)
 
   if (this.ui.label.position != "")
   {
-    ctx.fillText(this.ui.label.text, labelx, labely);
+    try {
+      ctx.fillText(this.ui.label.text, labelx, labely);
+    } catch(err) {
+      
+    }
   }
 }
 
