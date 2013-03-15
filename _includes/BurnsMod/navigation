@@ -21,7 +21,6 @@ active
                     <li><a href="/software/djpad.html">DJPad</a></li>
                  </ul>
               </li>
-              <li><a href="/about.html">About</a></li>
               <li class="dropdown">
                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Fun <b class="caret"></b></a>
                  <ul class="dropdown-menu">
@@ -32,6 +31,7 @@ active
 <li><a href="http://www.twitter.com/BurnsMod"><img src="http://www.burnsmod.com/assets/img/twitter.png" width=20 height=20 /></a></li>
               <li><a href="http://www.facebook.com/BurnsMod"><img src="http://www.burnsmod.com/assets/img/facebook.png" width=20 height=20 /></a></li>
               <li><a href="http://forum.burnsmod.com">Forums</a></li>
+              <li><a href="/about.html">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
